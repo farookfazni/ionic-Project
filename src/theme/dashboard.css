@@ -1,0 +1,59 @@
+.title{
+    text-align: center;
+    color: black;
+    margin: 0;
+    font-size: 25px;
+    font-weight: 900;
+    font-family: Proxima Nova;
+}
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    display: block;
+    
+}
+.title-sub{
+    color: white;
+    margin: 0;
+    font-weight: 900;
+    font-size: 20px;
+    font-family: Open Sans sans-serif;
+}
+.toolbar{
+    color: #008080;
+}
+
+.menu-list{
+    border-bottom: var(--ion-color-new);
+    border-width: 0px;
+}
+.list-icon{
+   padding-right: 10px;
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+.menu-icon{
+    padding-right: 10px;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+.card-title{
+    font-family: "Open Sans",sans-serif;
+    font-weight: 900;
+    font-variant-caps: all-petite-caps;
+    
+}
+.info-icon{
+    padding-left: 5px;
+    width: 15px;
+    height: 15px;
+    color: #b6c2c9 !important;
+    box-sizing: border-box;
+}
