@@ -17,6 +17,7 @@ import {
   IonList,
   IonItem,
   IonLabel,
+  IonButton,
 } from "@ionic/react";
 import React from "react";
 import "../theme/dashboard.css";
@@ -29,7 +30,7 @@ import {
   informationCircleSharp as infoIcon,
 } from "ionicons/icons";
 
-//import { auth } from "../firebase";
+import { auth } from "../firebase";
 
 const Dashboard: React.FC = () => {
   return (
@@ -39,6 +40,9 @@ const Dashboard: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false} menu="mainmenu"></IonMenuButton>
           </IonButtons>
+          <IonButton color="medium" slot="end" onClick={() => auth.signOut()}>
+          LogOut
+        </IonButton>
         </IonToolbar>
       </IonHeader>
 

@@ -16,13 +16,9 @@ import { IonReactRouter } from "@ionic/react-router";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import AppTabs from "./AppTabs";
+import AuthPages from "./AuthPages";
 import { AuthContext, useAuthInit } from "./auth";
 import NotFoundPage from "./pages/NotFoundPage";
-import RegisterPage from "./pages/RegisterPage";
-import Dashboard from "./pages/Dashboard";
-import Products from "./pages/Products";
-import Orders from "./pages/Orders";
 import "./theme/dashboard.css";
 import {
   barChart as chartIcon,
@@ -31,10 +27,11 @@ import {
   settings as settingIcon,
   peopleSharp as customerIcon,
 } from "ionicons/icons";
+import RegisterPage from "./pages/RegisterPage";
 
 const App: React.FC = () => {
   const { loading, auth } = useAuthInit();
-
+  
   if (loading) {
     return <IonLoading isOpen />;
   }
@@ -55,15 +52,15 @@ const App: React.FC = () => {
         </IonHeader>
         <IonContent color="menu">
           <IonList inset={true} mode="ios">
-            <IonItem color="menu" button detail={true} routerLink="/dashboard">
+            <IonItem color="menu" button detail={true} routerLink="/my/dashboard">
               <IonIcon icon={chartIcon} className="menu-icon" />
               Dashboard
             </IonItem>
-            <IonItem color="menu" button detail={true} routerLink="/products">
+            <IonItem color="menu" button detail={true} routerLink="/my/products">
               <IonIcon icon={productIcon} className="menu-icon" />
               Products
             </IonItem>
-            <IonItem color="menu" button detail={true} routerLink="/orders">
+            <IonItem color="menu" button detail={true} routerLink="/my/orders">
               <IonIcon icon={orderIcon} className="menu-icon" />
               Orders
             </IonItem>
@@ -87,25 +84,16 @@ const App: React.FC = () => {
       <AuthContext.Provider value={auth}>
         <IonReactRouter>
           <Switch>
-            <Route exact path="/login">
+          <Route exact path="/login">
               <LoginPage />
-            </Route>
-            <Route exact path="/dashboard">
-              <Dashboard />
-            </Route>
-            <Route exact path="/products">
-              <Products />
-            </Route>
-            <Route exact path="/orders">
-              <Orders />
             </Route>
             <Route exact path="/register">
               <RegisterPage />
             </Route>
             <Route path="/my">
-              <AppTabs />
+              <AuthPages />
             </Route>
-            <Redirect exact path="/" to="/my/home" />
+            <Redirect exact path="/" to="/my/dashboard" />
             <Route>
               <NotFoundPage />
             </Route>
