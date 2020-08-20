@@ -64,7 +64,7 @@ const Products: React.FC = () => {
     };
     const productRef = await addproductRef.add(productData);
     console.log("saved: ", productRef.id);
-    history.goBack();
+    history.go(0);
   };
 
   return (
