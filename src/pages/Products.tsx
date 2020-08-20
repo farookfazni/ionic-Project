@@ -20,6 +20,7 @@ import {
   IonTextarea,
   IonIcon,
   IonButton,
+  IonDatetime,
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import "../theme/dashboard.css";
@@ -29,19 +30,19 @@ import {
 } from "ionicons/icons";
 
 import { firestore } from "../firebase";
-//import { useHistory } from "react-router";
-
+import { useHistory } from "react-router";
 
 const Products: React.FC = () => {
-  //const history = useHistory();
+  const history = useHistory();
   const [products, setproducts] = useState([]);
-  const[Product_name, setProductName]=useState('');
-  const[Category, setCategory]=useState('');
-  const[Price, setPrice]=useState('');
-  const[Quantity, setQuantity]=useState('');
-  const[Description, setDescription]=useState('');
+  const [Product_name, setProductName] = useState("");
+  const [Category, setCategory] = useState("");
+  const [Price, setPrice] = useState("");
+  const [Quantity, setQuantity] = useState("");
+  const [Description, setDescription] = useState("");
+  const [date, setDate] = useState("");
   useEffect(() => {
-    const productRef = firestore.collection("Product").limit(1);
+    const productRef = firestore.collection("Product").orderBy('date','desc').limit(1);
     productRef.get().then((snapshot) => {
       const products = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -51,13 +52,20 @@ const Products: React.FC = () => {
     });
   }, []);
 
-  const handleAddProduct = async () =>{
-    const addproductRef = firestore.collection('Product');
-    const productData = {Product_name, Category, Price, Quantity, Description};
+  const handleAddProduct = async () => {
+    const addproductRef = firestore.collection("Product");
+    const productData = {
+      Product_name,
+      Category,
+      Price,
+      Quantity,
+      Description,
+      date,
+    };
     const productRef = await addproductRef.add(productData);
-    console.log('saved: ',productRef.id);
-    //history.goBack();
-  }
+    console.log("saved: ", productRef.id);
+    history.goBack();
+  };
 
   return (
     <IonPage>
@@ -156,35 +164,54 @@ const Products: React.FC = () => {
                   <IonList inset={true} mode="ios">
                     <IonItem>
                       <IonLabel position="stacked">Product Name</IonLabel>
-                      <IonInput value={Product_name}
-                      onIonChange={(event)=> setProductName(event.detail.value)}
+                      <IonInput
+                        value={Product_name}
+                        onIonChange={(event) =>
+                          setProductName(event.detail.value)
+                        }
                       />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Category</IonLabel>
-                      <IonInput value={Category}
-                      onIonChange={(event)=> setCategory(event.detail.value)}
+                      <IonInput
+                        value={Category}
+                        onIonChange={(event) => setCategory(event.detail.value)}
                       />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Price</IonLabel>
-                      <IonInput value={Price}
-                      onIonChange={(event)=> setPrice(event.detail.value)}
+                      <IonInput
+                        value={Price}
+                        onIonChange={(event) => setPrice(event.detail.value)}
                       />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Quantity</IonLabel>
-                      <IonInput type="number" value={Quantity}
-                      onIonChange={(event)=> setQuantity(event.detail.value)}
+                      <IonInput
+                        type="number"
+                        value={Quantity}
+                        onIonChange={(event) => setQuantity(event.detail.value)}
                       />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Description</IonLabel>
-                      <IonTextarea value={Description}
-                      onIonChange={(event)=> setDescription(event.detail.value)}
+                      <IonTextarea
+                        value={Description}
+                        onIonChange={(event) =>
+                          setDescription(event.detail.value)
+                        }
                       />
                     </IonItem>
-                    <IonButton onClick={handleAddProduct}>Add Product</IonButton>
+                    <IonItem>
+                      <IonLabel position="stacked">Date</IonLabel>
+                      <IonDatetime
+                        value={date}
+                        onIonChange={(event) => setDate(event.detail.value)}
+                      />
+                    </IonItem>
+                    <IonButton onClick={handleAddProduct}>
+                      Add Product
+                    </IonButton>
                   </IonList>
                 </IonCardContent>
               </IonCard>
