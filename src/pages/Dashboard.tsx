@@ -17,7 +17,6 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonButton,
 } from "@ionic/react";
 import React from "react";
 import "../theme/dashboard.css";
@@ -28,6 +27,7 @@ import {
   chatboxEllipsesSharp as feedbackIcon,
   ellipse as listicon,
   informationCircleSharp as infoIcon,
+  logOut as logoutIcon,
 } from "ionicons/icons";
 
 import { auth } from "../firebase";
@@ -40,9 +40,10 @@ const Dashboard: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false} menu="mainmenu"></IonMenuButton>
           </IonButtons>
-          <IonButton color="medium" slot="end" onClick={() => auth.signOut()}>
-          LogOut
-        </IonButton>
+          <IonItem button slot="end" color="toolbar" onClick={() => auth.signOut()}>
+          <IonIcon icon={logoutIcon}/>
+          <IonLabel>LogOut</IonLabel>
+        </IonItem>
         </IonToolbar>
       </IonHeader>
 

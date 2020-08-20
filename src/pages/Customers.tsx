@@ -19,13 +19,31 @@ import {
   IonItem,
   IonLabel,
 } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../theme/dashboard.css";
-import { briefcaseSharp as orderIcon, ellipse as listicon,logOut as logoutIcon, } from "ionicons/icons";
+import {
+  ellipse as listicon,
+  logOut as logoutIcon,
+  peopleSharp as customerIcon,
+} from "ionicons/icons";
 
-import { auth } from "../firebase";
+import { auth, firestore } from "../firebase";
 
-const Orders: React.FC = () => {
+const Customers: React.FC = () => {
+  const[Customers, setcustomer]=useState([]);
+
+  useEffect(() => {
+    const customerRef = firestore
+      .collection("Customers");
+      customerRef.get().then((snapshot) => {
+      const Customers = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setcustomer(Customers);
+    });
+  }, []);
+
   return (
     <IonPage>
       <IonHeader>
@@ -33,17 +51,22 @@ const Orders: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
-          <IonItem button slot="end" color="toolbar" onClick={() => auth.signOut()}>
-          <IonIcon icon={logoutIcon}/>
-          <IonLabel>LogOut</IonLabel>
-        </IonItem>
+          <IonItem
+            button
+            slot="end"
+            color="toolbar"
+            onClick={() => auth.signOut()}
+          >
+            <IonIcon icon={logoutIcon} />
+            <IonLabel>LogOut</IonLabel>
+          </IonItem>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         <IonToolbar>
           <IonTitle className="ion-align-self-center title">
-            <IonIcon icon={orderIcon} /> Orders
+            <IonIcon icon={customerIcon} /> Customers
           </IonTitle>
         </IonToolbar>
         <IonGrid>
@@ -56,31 +79,28 @@ const Orders: React.FC = () => {
                   </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
-                  
-                    <IonListHeader color="medium">
-                      <IonGrid>
+                  <IonListHeader color="medium">
+                    <IonGrid>
                       <IonRow>
-                        <IonCol>Order ID</IonCol>
-                        <IonCol>Product ID</IonCol>
-                        <IonCol>Product Name</IonCol>
-                        <IonCol>Category</IonCol>
-                        <IonCol>Price</IonCol>
-                        <IonCol>Quantity</IonCol>
+                        <IonCol>Customer Name</IonCol>
+                        <IonCol>Customer ID</IonCol>
+                        <IonCol>Address</IonCol>
+                        <IonCol>Contact No</IonCol>
+                        <IonCol>Email</IonCol>
                       </IonRow>
-                      </IonGrid>
-                    </IonListHeader>
-                    <IonList>
-                      <IonGrid>
-                        <IonRow>
-                          <IonCol>asd</IonCol>
-                          <IonCol>aaa</IonCol>
-                          <IonCol>aa</IonCol>
-                          <IonCol>xx</IonCol>
-                          <IonCol>ff</IonCol>
-                          <IonCol>ee</IonCol>
-                        </IonRow>
-                      </IonGrid>
-                    </IonList>
+                    </IonGrid>
+                  </IonListHeader>
+                  <IonList>
+                    <IonGrid>
+                      <IonRow>
+                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Customer_name}</IonCol>))}
+                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.id}</IonCol>))}
+                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Address}</IonCol>))}
+                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Contact_no}</IonCol>))}
+                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Email}</IonCol>))}
+                      </IonRow>
+                    </IonGrid>
+                  </IonList>
                 </IonCardContent>
               </IonCard>
             </IonCol>
@@ -89,11 +109,11 @@ const Orders: React.FC = () => {
               <IonCard className="ion-align-self-center" color="cardcolor">
                 <IonCardHeader color="cardcolor">
                   <IonCardTitle className="ion-text-center card-title">
-                    Customer details of the related order
+                    Latest Customer 
                   </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
-                <IonList inset={true} mode="ios">
+                  <IonList inset={true} mode="ios">
                     <IonItem color="cardcolor">
                       <IonIcon
                         icon={listicon}
@@ -143,11 +163,11 @@ const Orders: React.FC = () => {
                 </IonCardContent>
               </IonCard>
             </IonCol>
-            </IonRow>
+          </IonRow>
         </IonGrid>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Orders;
+export default Customers;

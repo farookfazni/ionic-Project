@@ -27,8 +27,9 @@ import "../theme/dashboard.css";
 import {
   fastFoodSharp as productIcon,
   ellipse as listicon,
+  logOut as logoutIcon,
 } from "ionicons/icons";
-
+import { auth } from "../firebase";
 import { firestore } from "../firebase";
 import { useHistory } from "react-router";
 
@@ -42,7 +43,10 @@ const Products: React.FC = () => {
   const [Description, setDescription] = useState("");
   const [date, setDate] = useState("");
   useEffect(() => {
-    const productRef = firestore.collection("Product").orderBy('date','desc').limit(1);
+    const productRef = firestore
+      .collection("Product")
+      .orderBy("date", "desc")
+      .limit(1);
     productRef.get().then((snapshot) => {
       const products = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -74,6 +78,15 @@ const Products: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
+          <IonItem
+            button
+            slot="end"
+            color="toolbar"
+            onClick={() => auth.signOut()}
+          >
+            <IonIcon icon={logoutIcon} />
+            <IonLabel>LogOut</IonLabel>
+          </IonItem>
         </IonToolbar>
       </IonHeader>
 
@@ -160,7 +173,7 @@ const Products: React.FC = () => {
                     Add Products
                   </IonCardTitle>
                 </IonCardHeader>
-                <IonCardContent>
+                <IonCardContent color="light">
                   <IonList inset={true} mode="ios">
                     <IonItem>
                       <IonLabel position="stacked">Product Name</IonLabel>
@@ -209,7 +222,7 @@ const Products: React.FC = () => {
                         onIonChange={(event) => setDate(event.detail.value)}
                       />
                     </IonItem>
-                    <IonButton onClick={handleAddProduct}>
+                    <IonButton type="submit" onClick={handleAddProduct}>
                       Add Product
                     </IonButton>
                   </IonList>

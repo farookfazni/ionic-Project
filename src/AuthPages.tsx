@@ -10,6 +10,8 @@ import { useAuth } from "./auth";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import Orders from "./pages/Orders";
+import Account from "./pages/Account and Settings";
+import Customers from "./pages/Customers";
 
 const AuthPages: React.FC = () => {
   const {loggedIn} = useAuth();
@@ -27,6 +29,12 @@ const AuthPages: React.FC = () => {
             </Route>
             <Route exact path="/my/orders">
               <Orders />
+            </Route>
+            <Route exact path="/my/account">
+              <Account/>
+            </Route>
+            <Route exact path="/my/customers">
+              <Customers />
             </Route>
       </IonRouterOutlet>
       

@@ -15,17 +15,20 @@ import {
   IonCol,
   IonIcon,
   IonList,
-  IonListHeader,
   IonItem,
   IonLabel,
 } from "@ionic/react";
 import React from "react";
 import "../theme/dashboard.css";
-import { briefcaseSharp as orderIcon, ellipse as listicon,logOut as logoutIcon, } from "ionicons/icons";
+import {
+  ellipse as listicon,
+  logOut as logoutIcon,
+  settings as settingIcon,
+} from "ionicons/icons";
 
 import { auth } from "../firebase";
 
-const Orders: React.FC = () => {
+const Account: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -33,58 +36,26 @@ const Orders: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
-          <IonItem button slot="end" color="toolbar" onClick={() => auth.signOut()}>
-          <IonIcon icon={logoutIcon}/>
-          <IonLabel>LogOut</IonLabel>
-        </IonItem>
+          <IonItem
+            button
+            slot="end"
+            color="toolbar"
+            onClick={() => auth.signOut()}
+          >
+            <IonIcon icon={logoutIcon} />
+            <IonLabel>LogOut</IonLabel>
+          </IonItem>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         <IonToolbar>
           <IonTitle className="ion-align-self-center title">
-            <IonIcon icon={orderIcon} /> Orders
+            <IonIcon icon={settingIcon} /> Account and Settings
           </IonTitle>
         </IonToolbar>
         <IonGrid>
           <IonRow>
-            <IonCol size="8">
-              <IonCard className="ion-align-self-center">
-                <IonCardHeader color="cardcolor">
-                  <IonCardTitle className="ion-text-center card-title">
-                    My orders
-                  </IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent>
-                  
-                    <IonListHeader color="medium">
-                      <IonGrid>
-                      <IonRow>
-                        <IonCol>Order ID</IonCol>
-                        <IonCol>Product ID</IonCol>
-                        <IonCol>Product Name</IonCol>
-                        <IonCol>Category</IonCol>
-                        <IonCol>Price</IonCol>
-                        <IonCol>Quantity</IonCol>
-                      </IonRow>
-                      </IonGrid>
-                    </IonListHeader>
-                    <IonList>
-                      <IonGrid>
-                        <IonRow>
-                          <IonCol>asd</IonCol>
-                          <IonCol>aaa</IonCol>
-                          <IonCol>aa</IonCol>
-                          <IonCol>xx</IonCol>
-                          <IonCol>ff</IonCol>
-                          <IonCol>ee</IonCol>
-                        </IonRow>
-                      </IonGrid>
-                    </IonList>
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
-
             <IonCol size="4">
               <IonCard className="ion-align-self-center" color="cardcolor">
                 <IonCardHeader color="cardcolor">
@@ -93,7 +64,7 @@ const Orders: React.FC = () => {
                   </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
-                <IonList inset={true} mode="ios">
+                  <IonList inset={true} mode="ios">
                     <IonItem color="cardcolor">
                       <IonIcon
                         icon={listicon}
@@ -143,11 +114,11 @@ const Orders: React.FC = () => {
                 </IonCardContent>
               </IonCard>
             </IonCol>
-            </IonRow>
+          </IonRow>
         </IonGrid>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Orders;
+export default Account;

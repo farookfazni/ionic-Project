@@ -64,11 +64,11 @@ const App: React.FC = () => {
               <IonIcon icon={orderIcon} className="menu-icon" />
               Orders
             </IonItem>
-            <IonItem color="menu" button detail={true}>
+            <IonItem color="menu" button detail={true} routerLink="/my/customers">
             <IonIcon icon={customerIcon} className="menu-icon" />
               Customers
             </IonItem>
-            <IonItem color="menu" button detail={true}>
+            <IonItem color="menu" button detail={true} routerLink="/my/account">
             <IonIcon icon={settingIcon} className="menu-icon" />
               Account and Settings
             </IonItem>
