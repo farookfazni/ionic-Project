@@ -43,7 +43,7 @@ const RegisterPage: React.FC = () => {
   };
 
   if (loggedIn) {
-    return <Redirect to="/my/home" />;
+    return <Redirect to="/my/dashboard" />;
   }
   return (
     <IonPage className="bg-img">

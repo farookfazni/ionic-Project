@@ -19,14 +19,46 @@ import {
   IonInput,
   IonTextarea,
   IonIcon,
+  IonButton,
 } from "@ionic/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../theme/dashboard.css";
-import { fastFoodSharp as productIcon } from "ionicons/icons";
+import {
+  fastFoodSharp as productIcon,
+  ellipse as listicon,
+} from "ionicons/icons";
 
-//import { auth } from "../firebase";
+import { firestore } from "../firebase";
+//import { useHistory } from "react-router";
+
 
 const Products: React.FC = () => {
+  //const history = useHistory();
+  const [products, setproducts] = useState([]);
+  const[Product_name, setProductName]=useState('');
+  const[Category, setCategory]=useState('');
+  const[Price, setPrice]=useState('');
+  const[Quantity, setQuantity]=useState('');
+  const[Description, setDescription]=useState('');
+  useEffect(() => {
+    const productRef = firestore.collection("Product").limit(1);
+    productRef.get().then((snapshot) => {
+      const products = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setproducts(products);
+    });
+  }, []);
+
+  const handleAddProduct = async () =>{
+    const addproductRef = firestore.collection('Product');
+    const productData = {Product_name, Category, Price, Quantity, Description};
+    const productRef = await addproductRef.add(productData);
+    console.log('saved: ',productRef.id);
+    //history.goBack();
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -46,13 +78,71 @@ const Products: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol size="6">
-              <IonCard className="ion-align-self-center">
+              <IonCard className="ion-align-self-center" color="cardcolor">
                 <IonCardHeader color="cardcolor">
                   <IonCardTitle className="ion-text-center card-title">
                     Latest Products
                   </IonCardTitle>
                 </IonCardHeader>
-                <IonCardContent>details</IonCardContent>
+                <IonCardContent>
+                  <IonList inset={true} mode="ios">
+                    {products.map((entry) => (
+                      <IonItem color="cardcolor" key={entry.id}>
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Product Name</IonLabel>
+                        <IonLabel>{entry.Product_name}</IonLabel>
+                      </IonItem>
+                    ))}
+                    {products.map((entry) => (
+                      <IonItem color="cardcolor" key={entry.id}>
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Product ID</IonLabel>
+                        <IonLabel>{entry.id}</IonLabel>
+                      </IonItem>
+                    ))}
+                    {products.map((entry) => (
+                      <IonItem color="cardcolor" key={entry.id}>
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Category</IonLabel>
+                        <IonLabel>{entry.Category}</IonLabel>
+                      </IonItem>
+                    ))}
+                    {products.map((entry) => (
+                      <IonItem color="cardcolor" key={entry.id}>
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Price</IonLabel>
+                        <IonLabel>{entry.Price}</IonLabel>
+                      </IonItem>
+                    ))}
+                    {products.map((entry) => (
+                      <IonItem color="cardcolor" key={entry.id}>
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Quantity</IonLabel>
+                        <IonLabel>{entry.Quantity}</IonLabel>
+                      </IonItem>
+                    ))}
+                  </IonList>
+                </IonCardContent>
               </IonCard>
             </IonCol>
             <IonCol size="6">
@@ -66,36 +156,35 @@ const Products: React.FC = () => {
                   <IonList inset={true} mode="ios">
                     <IonItem>
                       <IonLabel position="stacked">Product Name</IonLabel>
-                      <IonInput />
-                    </IonItem>
-                    <IonItem>
-                      <IonLabel position="stacked">Product ID</IonLabel>
-                      <IonInput type="number" />
-                    </IonItem>
-                    <IonItem>
-                      <IonLabel position="stacked">Manufacture</IonLabel>
-                      <IonInput />
+                      <IonInput value={Product_name}
+                      onIonChange={(event)=> setProductName(event.detail.value)}
+                      />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Category</IonLabel>
-                      <IonInput />
+                      <IonInput value={Category}
+                      onIonChange={(event)=> setCategory(event.detail.value)}
+                      />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Price</IonLabel>
-                      <IonInput />
+                      <IonInput value={Price}
+                      onIonChange={(event)=> setPrice(event.detail.value)}
+                      />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Quantity</IonLabel>
-                      <IonInput type="number" />
+                      <IonInput type="number" value={Quantity}
+                      onIonChange={(event)=> setQuantity(event.detail.value)}
+                      />
                     </IonItem>
                     <IonItem>
                       <IonLabel position="stacked">Description</IonLabel>
-                      <IonTextarea />
+                      <IonTextarea value={Description}
+                      onIonChange={(event)=> setDescription(event.detail.value)}
+                      />
                     </IonItem>
-                    <IonItem>
-                      <IonLabel position="stacked">Import Image</IonLabel>
-                      <IonInput accept="file" />
-                    </IonItem>
+                    <IonButton onClick={handleAddProduct}>Add Product</IonButton>
                   </IonList>
                 </IonCardContent>
               </IonCard>
