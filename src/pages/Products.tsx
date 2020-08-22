@@ -22,7 +22,7 @@ import {
   IonButton,
   IonDatetime,
 } from "@ionic/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../theme/dashboard.css";
 import {
   fastFoodSharp as productIcon,
@@ -30,18 +30,31 @@ import {
   logOut as logoutIcon,
 } from "ionicons/icons";
 import { auth } from "../firebase";
-import { firestore } from "../firebase";
+import { firestore,storage } from "../firebase";
 import { useHistory } from "react-router";
+
+async function savePicture(blobUrl){
+  const pictureRef = storage.ref(`/products/pictures/${Date.now()}`);
+  const responce = await fetch(blobUrl);
+  const blob = await responce.blob();
+  const snapshot = await pictureRef.put(blob);
+  const url = await snapshot.ref.getDownloadURL();
+  console.log('saved Picture:',url);
+  return url;
+}
 
 const Products: React.FC = () => {
   const history = useHistory();
   const [products, setproducts] = useState([]);
   const [Product_name, setProductName] = useState("");
+  const [PictureUrl, setPictureUrl] = useState('/assets/placeholder.png');
   const [Category, setCategory] = useState("");
   const [Price, setPrice] = useState("");
   const [Quantity, setQuantity] = useState("");
   const [Description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>();
+
   useEffect(() => {
     const productRef = firestore
       .collection("Product")
@@ -55,6 +68,20 @@ const Products: React.FC = () => {
       setproducts(products);
     });
   }, []);
+  useEffect(() => ()=>{
+    if(PictureUrl.startsWith('blob:')){
+      URL.revokeObjectURL(PictureUrl);
+      
+    }
+  },[PictureUrl]);
+
+  const handlefilechange = (event:React.ChangeEvent<HTMLInputElement>) =>{
+    if(event.target.files.length > 0){
+      const file = event.target.files.item(0);
+      const PictureUrl = URL.createObjectURL(file);
+      setPictureUrl(PictureUrl);
+    }
+  };
 
   const handleAddProduct = async () => {
     const addproductRef = firestore.collection("Product");
@@ -65,7 +92,11 @@ const Products: React.FC = () => {
       Quantity,
       Description,
       date,
+      PictureUrl,
     };
+    if(PictureUrl.startsWith('blob:')){
+        productData.PictureUrl = await savePicture(PictureUrl);
+    }
     const productRef = await addproductRef.add(productData);
     console.log("saved: ", productRef.id);
     history.go(0);
@@ -162,6 +193,12 @@ const Products: React.FC = () => {
                         <IonLabel>{entry.Quantity}</IonLabel>
                       </IonItem>
                     ))}
+                    {products.map((entry) => (
+                      <IonItem color="cardcolor" key={entry.id}>
+                        <IonLabel position="stacked">Image</IonLabel>
+                        <img src={entry.PictureUrl} alt=""/>
+                      </IonItem>
+                    ))}
                   </IonList>
                 </IonCardContent>
               </IonCard>
@@ -213,6 +250,15 @@ const Products: React.FC = () => {
                         onIonChange={(event) =>
                           setDescription(event.detail.value)
                         }
+                      />
+                    </IonItem>
+                    <IonItem>
+                      <IonLabel position="stacked">Picture</IonLabel>
+                      <input type="file" accept="image/*" hidden ref={fileInputRef}
+                      onChange={handlefilechange}
+                      />
+                      <img src={PictureUrl} alt="" style={{cursor:'pointer'}}
+                        onClick={()=>fileInputRef.current.click()}
                       />
                     </IonItem>
                     <IonItem>

@@ -32,33 +32,27 @@ import { auth, firestore } from "../firebase";
 
 
 
+
+
 const Orders: React.FC = () => {
+
   const [orders, setorder] = useState<any>([]);
   const [customers, setcustomer] = useState([]);
   
 
   useEffect(() => {
-    const orderRef = firestore
-      .collection("Customers")
-      .doc()
-      .collection("Orders");
-
+    const orderRef = firestore.collection('Users').doc().collection('Orders');
     orderRef.get().then((snapshot) => {
-      const orders = [];
-      snapshot.docs.forEach(document =>{
-        const suborders = {
-          id: document.id,
-          ...document.data(),
-        };
-        orders.push(suborders);
-      });
-        setorder(orders);
-      });
-      
-  }, []);
+      const orders = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setorder(orders);
+    });
+  },[]);
 
   useEffect(() => {
-    const customerRef = firestore.collection("Customers").limit(1);
+    const customerRef = firestore.collection("Users").limit(1);
     customerRef.get().then((snapshot) => {
       const customers = snapshot.docs.map((doc) => ({
         id: doc.id,

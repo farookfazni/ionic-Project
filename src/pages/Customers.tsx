@@ -34,7 +34,7 @@ const Customers: React.FC = () => {
 
   useEffect(() => {
     const customerRef = firestore
-      .collection("Customers");
+      .collection("Users");
       customerRef.get().then((snapshot) => {
       const Customers = snapshot.docs.map((doc) => ({
         id: doc.id,
