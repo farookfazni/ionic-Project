@@ -34,7 +34,7 @@ const Customers: React.FC = () => {
 
   useEffect(() => {
     const customerRef = firestore
-      .collection("Users");
+      .collection("Customers");
       customerRef.get().then((snapshot) => {
       const Customers = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -75,7 +75,7 @@ const Customers: React.FC = () => {
               <IonCard className="ion-align-self-center">
                 <IonCardHeader color="cardcolor">
                   <IonCardTitle className="ion-text-center card-title">
-                    My orders
+                    My Customers
                   </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>
@@ -92,13 +92,13 @@ const Customers: React.FC = () => {
                   </IonListHeader>
                   <IonList>
                     <IonGrid>
-                      <IonRow>
-                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Customer_name}</IonCol>))}
-                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.id}</IonCol>))}
-                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Address}</IonCol>))}
-                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Contact_no}</IonCol>))}
-                      {Customers.map((entry) => (<IonCol key={entry.id}>{entry.Email}</IonCol>))}
-                      </IonRow>
+                      {Customers.map((entry)=> (<IonRow key={entry.id}>
+                      <IonCol>{entry.Customer_name}</IonCol>
+                      <IonCol>{entry.id}</IonCol>
+                      <IonCol>{entry.Address}</IonCol>
+                      <IonCol>{entry.Contact_no}</IonCol>
+                      <IonCol>{entry.Email}</IonCol>
+                      </IonRow>))}
                     </IonGrid>
                   </IonList>
                 </IonCardContent>

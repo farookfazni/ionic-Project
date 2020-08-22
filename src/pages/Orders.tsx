@@ -29,19 +29,12 @@ import {
 
 import { auth, firestore } from "../firebase";
 
-
-
-
-
-
 const Orders: React.FC = () => {
-
-  const [orders, setorder] = useState<any>([]);
+  const [orders, setorder] = useState([]);
   const [customers, setcustomer] = useState([]);
-  
 
   useEffect(() => {
-    const orderRef = firestore.collection('Users').doc().collection('Orders');
+    const orderRef = firestore.collection("Orders");
     orderRef.get().then((snapshot) => {
       const orders = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -49,10 +42,10 @@ const Orders: React.FC = () => {
       }));
       setorder(orders);
     });
-  },[]);
+  }, []);
 
   useEffect(() => {
-    const customerRef = firestore.collection("Users").limit(1);
+    const customerRef = firestore.collection("Customers").limit(1);
     customerRef.get().then((snapshot) => {
       const customers = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -101,6 +94,7 @@ const Orders: React.FC = () => {
                     <IonGrid>
                       <IonRow>
                         <IonCol>Order ID</IonCol>
+                        <IonCol>Customer ID</IonCol>
                         <IonCol>Product Name</IonCol>
                         <IonCol>Category</IonCol>
                         <IonCol>Price</IonCol>
@@ -110,23 +104,21 @@ const Orders: React.FC = () => {
                   </IonListHeader>
                   <IonList>
                     <IonGrid>
-                      <IonRow>
-                        {orders.map(entry => (
-                          <IonCol key={entry.id}>{entry.id}</IonCol>
-                        ))}
-                        {orders.map(entry => (
-                          <IonCol key={entry.id}>{entry.Product_name}</IonCol>
-                        ))}
-                        {orders.map(entry => (
-                          <IonCol key={entry.id}>{entry.Category}</IonCol>
-                        ))}
-                        {orders.map(entry => (
-                          <IonCol key={entry.id}>{entry.Price}</IonCol>
-                        ))}
-                        {orders.map(entry => (
-                          <IonCol key={entry.id}>{entry.Quantity}</IonCol>
-                        ))}
-                      </IonRow>
+                      {orders.map((entry) => (
+                        <IonRow key={entry.id}>
+                          <IonCol>{entry.id}</IonCol>
+
+                          <IonCol>{entry.Customer_id}</IonCol>
+
+                          <IonCol>{entry.Product_name}</IonCol>
+
+                          <IonCol>{entry.Category}</IonCol>
+
+                          <IonCol>{entry.Price}</IonCol>
+
+                          <IonCol>{entry.Quantity}</IonCol>
+                        </IonRow>
+                      ))}
                     </IonGrid>
                   </IonList>
                 </IonCardContent>
