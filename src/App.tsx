@@ -72,9 +72,6 @@ const App: React.FC = () => {
             <IonIcon icon={settingIcon} className="menu-icon" />
               Account and Settings
             </IonItem>
-            <IonItem color="menu" button detail={true}>
-              Menu Item
-            </IonItem>
           </IonList>
         </IonContent>
       </IonMenu>

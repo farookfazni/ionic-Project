@@ -26,15 +26,16 @@ import {
   ellipse as listicon,
   logOut as logoutIcon,
 } from "ionicons/icons";
-
+import { useAuth } from "../auth";
 import { auth, firestore } from "../firebase";
 
 const Orders: React.FC = () => {
+  const {userId} = useAuth();
   const [orders, setorder] = useState([]);
   const [customers, setcustomer] = useState([]);
 
   useEffect(() => {
-    const orderRef = firestore.collection("Orders");
+    const orderRef = firestore.collection('users').doc(userId).collection("Orders");
     orderRef.get().then((snapshot) => {
       const orders = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -42,10 +43,10 @@ const Orders: React.FC = () => {
       }));
       setorder(orders);
     });
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
-    const customerRef = firestore.collection("Customers").limit(1);
+    const customerRef = firestore.collection('users').doc(userId).collection("Customers").limit(1);
     customerRef.get().then((snapshot) => {
       const customers = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -53,7 +54,7 @@ const Orders: React.FC = () => {
       }));
       setcustomer(customers);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <IonPage>

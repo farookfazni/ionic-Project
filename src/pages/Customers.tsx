@@ -28,13 +28,15 @@ import {
 } from "ionicons/icons";
 
 import { auth, firestore } from "../firebase";
+import { useAuth } from "../auth";
 
 const Customers: React.FC = () => {
   const[Customers, setcustomer]=useState([]);
+  const {userId} = useAuth();
 
   useEffect(() => {
     const customerRef = firestore
-      .collection("Customers");
+      .collection('users').doc(userId).collection("Customers");
       customerRef.get().then((snapshot) => {
       const Customers = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -42,7 +44,7 @@ const Customers: React.FC = () => {
       }));
       setcustomer(Customers);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <IonPage>

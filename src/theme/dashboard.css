@@ -57,3 +57,13 @@
     color: #b6c2c9 !important;
     box-sizing: border-box;
 }
+.profile-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40%;
+  }
+  .avatr-img {
+    border-radius: 1000px;
+    height: 100px;
+  }

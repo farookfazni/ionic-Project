@@ -32,6 +32,7 @@ import {
 import { auth } from "../firebase";
 import { firestore,storage } from "../firebase";
 import { useHistory } from "react-router";
+import { useAuth } from "../auth";
 
 async function savePicture(blobUrl){
   const pictureRef = storage.ref(`/products/pictures/${Date.now()}`);
@@ -44,6 +45,7 @@ async function savePicture(blobUrl){
 }
 
 const Products: React.FC = () => {
+  const {userId} = useAuth();
   const history = useHistory();
   const [products, setproducts] = useState([]);
   const [Product_name, setProductName] = useState("");
@@ -57,7 +59,7 @@ const Products: React.FC = () => {
 
   useEffect(() => {
     const productRef = firestore
-      .collection("Product")
+    .collection('users').doc(userId).collection("Product")
       .orderBy("date", "desc")
       .limit(1);
     productRef.get().then((snapshot) => {
@@ -67,7 +69,7 @@ const Products: React.FC = () => {
       }));
       setproducts(products);
     });
-  }, []);
+  }, [userId]);
   useEffect(() => ()=>{
     if(PictureUrl.startsWith('blob:')){
       URL.revokeObjectURL(PictureUrl);
@@ -84,7 +86,7 @@ const Products: React.FC = () => {
   };
 
   const handleAddProduct = async () => {
-    const addproductRef = firestore.collection("Product");
+    const addproductRef = firestore.collection('users').doc(userId).collection("Product");
     const productData = {
       Product_name,
       Category,
