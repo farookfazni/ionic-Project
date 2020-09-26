@@ -17,9 +17,6 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonChip,
-  IonAvatar,
-  IonPopover,
   IonButton,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
@@ -31,39 +28,23 @@ import {
   chatboxEllipsesSharp as feedbackIcon,
   ellipse as listicon,
   informationCircleSharp as infoIcon,
-  logOut as logoutIcon,
-  settings as settingIcon,
-  person as profileIcon,
 } from "ionicons/icons";
-import { auth, firestore } from "../firebase";
+import { firestore } from "../firebase";
 import { useAuth } from "../auth";
-import { Entry, toEntry } from "../model";
+import PopoverComponent from "./PopoverComponent";
 
 const Dashboard: React.FC = () => {
-  const [showPopover, setShowPopover] = useState<{
-    open: boolean;
-    event: Event | undefined;
-  }>({
-    open: false,
-    event: undefined,
-  });
   const { userId } = useAuth();
-  const [entries, setEntries] = useState<Entry[]>([]);
   const [entrie, setEntrie] = useState([]);
   const [Customers, setCustomers] = useState([]);
-  useEffect(() => {
-    const entriesRef = firestore
-      .collection("users")
-      .doc(userId)
-      .collection("Details");
-    return entriesRef.onSnapshot(({ docs }) => setEntries(docs.map(toEntry)));
-  }, [userId]);
+
 
   useEffect(() => {
     const entriesRef = firestore
       .collection("users")
       .doc(userId)
-      .collection("Orders").limit(1);
+      .collection("Orders")
+      .limit(1);
     entriesRef.get().then((snapshot) => {
       const entrie = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -76,7 +57,8 @@ const Dashboard: React.FC = () => {
     const entriesRef = firestore
       .collection("users")
       .doc(userId)
-      .collection("Customers").limit(1);
+      .collection("Customers")
+      .limit(1);
     entriesRef.get().then((snapshot) => {
       const customers = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -93,48 +75,7 @@ const Dashboard: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false} menu="mainmenu"></IonMenuButton>
           </IonButtons>
-          {entries.map((entry) => (
-            <IonPopover
-              key={entry.id}
-              cssClass="pop-over"
-              isOpen={showPopover.open}
-              event={showPopover.event}
-              onDidDismiss={(e) =>
-                setShowPopover({ open: false, event: undefined })
-              }
-            >
-              <IonList>
-                <IonItem
-                  button
-                  routerLink={`/my/profilepage/${entry.id}`}
-                  onClick={(e) =>
-                    setShowPopover({ open: false, event: e.nativeEvent })
-                  }
-                >
-                  <IonIcon icon={profileIcon} /> Profile
-                </IonItem>
-                <IonItem button>
-                  <IonIcon icon={settingIcon} />
-                  Settings
-                </IonItem>
-                <IonItem button onClick={() => auth.signOut()}>
-                  <IonIcon icon={logoutIcon} />
-                  LogOut
-                </IonItem>
-              </IonList>
-            </IonPopover>
-          ))}
-          <IonChip
-            slot="end"
-            onClick={(e) =>
-              setShowPopover({ open: true, event: e.nativeEvent })
-            }
-          >
-            <IonAvatar>
-              <img src="./assets/1.jpg" alt="" />
-            </IonAvatar>
-            <IonLabel>Farook Fazni</IonLabel>
-          </IonChip>
+          <PopoverComponent />
         </IonToolbar>
       </IonHeader>
 
@@ -252,7 +193,11 @@ const Dashboard: React.FC = () => {
           <IonRow>
             <IonCol size="6">
               {entrie.map((entry) => (
-                <IonCard key={entry.id} className="ion-align-self-center" color="cardcolor">
+                <IonCard
+                  key={entry.id}
+                  className="ion-align-self-center"
+                  color="cardcolor"
+                >
                   <IonCardHeader>
                     <IonCardTitle className="ion-text-start card-title">
                       Latest Order{" "}
@@ -322,63 +267,69 @@ const Dashboard: React.FC = () => {
             </IonCol>
 
             <IonCol size="6">
-            {Customers.map((entry) => (<IonCard key={entry.id} className="ion-align-self-center" color="cardcolor">
-                <IonCardHeader>
-                  <IonCardTitle className="ion-text-start card-title">
-                    Latest Customer
-                    <IonIcon icon={infoIcon} className="info-icon" />
-                  </IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent>
-                  <IonList inset={true} mode="ios">
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Customer Name</IonLabel>
-                      <IonLabel>{entry.Customer_name}</IonLabel>
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Customer ID</IonLabel>
-                      <IonLabel>{entry.id}</IonLabel>
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Address</IonLabel>
-                      <IonLabel>{entry.Address}</IonLabel>
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Contact No</IonLabel>
-                      <IonLabel>{entry.Contact_no}</IonLabel>
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Email</IonLabel>
-                      <IonLabel>{entry.Email}</IonLabel>
-                    </IonItem>
-                  </IonList>
-                </IonCardContent>
-              </IonCard>))}
+              {Customers.map((entry) => (
+                <IonCard
+                  key={entry.id}
+                  className="ion-align-self-center"
+                  color="cardcolor"
+                >
+                  <IonCardHeader>
+                    <IonCardTitle className="ion-text-start card-title">
+                      Latest Customer
+                      <IonIcon icon={infoIcon} className="info-icon" />
+                    </IonCardTitle>
+                  </IonCardHeader>
+                  <IonCardContent>
+                    <IonList inset={true} mode="ios">
+                      <IonItem color="cardcolor">
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Customer Name</IonLabel>
+                        <IonLabel>{entry.Customer_name}</IonLabel>
+                      </IonItem>
+                      <IonItem color="cardcolor">
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Customer ID</IonLabel>
+                        <IonLabel>{entry.id}</IonLabel>
+                      </IonItem>
+                      <IonItem color="cardcolor">
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Address</IonLabel>
+                        <IonLabel>{entry.Address}</IonLabel>
+                      </IonItem>
+                      <IonItem color="cardcolor">
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Contact No</IonLabel>
+                        <IonLabel>{entry.Contact_no}</IonLabel>
+                      </IonItem>
+                      <IonItem color="cardcolor">
+                        <IonIcon
+                          icon={listicon}
+                          className="list-icon"
+                          color="tertiary"
+                        />
+                        <IonLabel position="stacked">Email</IonLabel>
+                        <IonLabel>{entry.Email}</IonLabel>
+                      </IonItem>
+                    </IonList>
+                  </IonCardContent>
+                </IonCard>
+              ))}
             </IonCol>
           </IonRow>
         </IonGrid>

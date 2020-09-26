@@ -23,12 +23,12 @@ import React, { useEffect, useState } from "react";
 import "../theme/dashboard.css";
 import {
   ellipse as listicon,
-  logOut as logoutIcon,
   peopleSharp as customerIcon,
 } from "ionicons/icons";
 
-import { auth, firestore } from "../firebase";
+import { firestore } from "../firebase";
 import { useAuth } from "../auth";
+import PopoverComponent from "./PopoverComponent";
 
 const Customers: React.FC = () => {
   const[Customers, setcustomer]=useState([]);
@@ -53,15 +53,7 @@ const Customers: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
-          <IonItem
-            button
-            slot="end"
-            color="toolbar"
-            onClick={() => auth.signOut()}
-          >
-            <IonIcon icon={logoutIcon} />
-            <IonLabel>LogOut</IonLabel>
-          </IonItem>
+          <PopoverComponent/>
         </IonToolbar>
       </IonHeader>
 

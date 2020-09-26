@@ -27,12 +27,11 @@ import "../theme/dashboard.css";
 import {
   fastFoodSharp as productIcon,
   ellipse as listicon,
-  logOut as logoutIcon,
 } from "ionicons/icons";
-import { auth } from "../firebase";
 import { firestore,storage } from "../firebase";
 import { useHistory } from "react-router";
 import { useAuth } from "../auth";
+import PopoverComponent from "./PopoverComponent";
 
 async function savePicture(blobUrl){
   const pictureRef = storage.ref(`/products/pictures/${Date.now()}`);
@@ -111,15 +110,7 @@ const Products: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
-          <IonItem
-            button
-            slot="end"
-            color="toolbar"
-            onClick={() => auth.signOut()}
-          >
-            <IonIcon icon={logoutIcon} />
-            <IonLabel>LogOut</IonLabel>
-          </IonItem>
+          <PopoverComponent/>
         </IonToolbar>
       </IonHeader>
 

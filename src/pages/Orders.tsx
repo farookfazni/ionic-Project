@@ -24,10 +24,10 @@ import "../theme/dashboard.css";
 import {
   briefcaseSharp as orderIcon,
   ellipse as listicon,
-  logOut as logoutIcon,
 } from "ionicons/icons";
 import { useAuth } from "../auth";
-import { auth, firestore } from "../firebase";
+import { firestore } from "../firebase";
+import PopoverComponent from "./PopoverComponent";
 
 const Orders: React.FC = () => {
   const {userId} = useAuth();
@@ -63,15 +63,7 @@ const Orders: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
-          <IonItem
-            button
-            slot="end"
-            color="toolbar"
-            onClick={() => auth.signOut()}
-          >
-            <IonIcon icon={logoutIcon} />
-            <IonLabel>LogOut</IonLabel>
-          </IonItem>
+          <PopoverComponent/>
         </IonToolbar>
       </IonHeader>
 

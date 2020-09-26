@@ -11,17 +11,14 @@ import {
   IonCardTitle,
   IonCardContent,
   IonIcon,
-  IonItem,
-  IonLabel,
 } from "@ionic/react";
 import React from "react";
 import "../theme/dashboard.css";
 import {
-  logOut as logoutIcon,
   settings as settingIcon,
 } from "ionicons/icons";
 
-import { auth } from "../firebase";
+import PopoverComponent from "./PopoverComponent";
 
 const Account: React.FC = () => {
   return (
@@ -31,15 +28,7 @@ const Account: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
-          <IonItem
-            button
-            slot="end"
-            color="toolbar"
-            onClick={() => auth.signOut()}
-          >
-            <IonIcon icon={logoutIcon} />
-            <IonLabel>LogOut</IonLabel>
-          </IonItem>
+          <PopoverComponent/>
         </IonToolbar>
       </IonHeader>
 
@@ -53,7 +42,7 @@ const Account: React.FC = () => {
               <IonCard className="ion-align-self-center" color="cardcolor">
                 <IonCardHeader color="cardcolor">
                   <IonCardTitle className="ion-text-center card-title">
-                    Customer details of the related order
+                    General Settings
                   </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent>

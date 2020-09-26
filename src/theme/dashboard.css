@@ -67,3 +67,12 @@
     border-radius: 1000px;
     height: 100px;
   }
+  .dashboard {
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    background-color: whitesmoke;
+    height: 60%;
+  }
+  .profile-list {
+    padding-top: 50px;
+  }
