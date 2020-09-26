@@ -38,7 +38,6 @@ const Dashboard: React.FC = () => {
   const [entrie, setEntrie] = useState([]);
   const [Customers, setCustomers] = useState([]);
 
-
   useEffect(() => {
     const entriesRef = firestore
       .collection("users")
@@ -201,7 +200,14 @@ const Dashboard: React.FC = () => {
                   <IonCardHeader>
                     <IonCardTitle className="ion-text-start card-title">
                       Latest Order{" "}
-                      <IonIcon icon={infoIcon} className="info-icon" />
+                      <IonButton
+                        mode="ios"
+                        routerLink={`/my/singleorder/${entry.id}`}
+                        fill="clear"
+                      >
+                        {" "}
+                        <IonIcon icon={infoIcon} className="info-icon" />{" "}
+                      </IonButton>
                     </IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent color="cardcolor">
