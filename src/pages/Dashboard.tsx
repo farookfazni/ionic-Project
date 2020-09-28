@@ -37,6 +37,8 @@ const Dashboard: React.FC = () => {
   const { userId } = useAuth();
   const [entrie, setEntrie] = useState([]);
   const [Customers, setCustomers] = useState([]);
+  const [customersize, setcustomersize] = useState<any>();
+  const [Ordersize, setOrdersize] = useState<any>();
 
   useEffect(() => {
     const entriesRef = firestore
@@ -65,6 +67,22 @@ const Dashboard: React.FC = () => {
       }));
       setCustomers(customers);
     });
+  }, [userId]);
+
+  useEffect(()=>{
+    const customersize = firestore.collection("users").doc(userId).collection("Customers");
+    customersize.get().then(snap =>{
+      const customersize = snap.size;
+      setcustomersize(customersize);
+    })
+  }, [userId]);
+
+  useEffect(()=>{
+    const Ordersize = firestore.collection("users").doc(userId).collection("Orders");
+    Ordersize.get().then(snap =>{
+      const Ordersize = snap.size;
+      setOrdersize(Ordersize);
+    })
   }, [userId]);
 
   return (
@@ -112,7 +130,7 @@ const Dashboard: React.FC = () => {
                           </IonLabel>
                         </IonRow>
                         <IonRow>
-                          <IonLabel className="ion-text-center">1</IonLabel>
+                          <IonLabel className="ion-text-center">{Ordersize}</IonLabel>
                         </IonRow>
                       </IonCol>
                     </IonRow>
@@ -146,7 +164,7 @@ const Dashboard: React.FC = () => {
                           </IonLabel>
                         </IonRow>
                         <IonRow>
-                          <IonLabel className="ion-text-center">1</IonLabel>
+                          <IonLabel className="ion-text-center">{customersize}</IonLabel>
                         </IonRow>
                       </IonCol>
                     </IonRow>
@@ -205,8 +223,7 @@ const Dashboard: React.FC = () => {
                         routerLink={`/my/singleorder/${entry.id}`}
                         fill="clear"
                       >
-                        {" "}
-                        <IonIcon icon={infoIcon} className="info-icon" />{" "}
+                        <IonIcon icon={infoIcon} className="info-icon" />
                       </IonButton>
                     </IonCardTitle>
                   </IonCardHeader>
@@ -220,15 +237,6 @@ const Dashboard: React.FC = () => {
                         />
                         <IonLabel position="stacked">Product Name</IonLabel>
                         <IonLabel>{entry.Product_name}</IonLabel>
-                      </IonItem>
-                      <IonItem color="cardcolor">
-                        <IonIcon
-                          icon={listicon}
-                          className="list-icon"
-                          color="tertiary"
-                        />
-                        <IonLabel position="stacked">Product ID</IonLabel>
-                        <IonLabel>{entry.Product_id}</IonLabel>
                       </IonItem>
                       <IonItem color="cardcolor">
                         <IonIcon
@@ -282,7 +290,13 @@ const Dashboard: React.FC = () => {
                   <IonCardHeader>
                     <IonCardTitle className="ion-text-start card-title">
                       Latest Customer
-                      <IonIcon icon={infoIcon} className="info-icon" />
+                      <IonButton
+                        mode="ios"
+                        routerLink={`/my/singlecustomer/${entry.id}`}
+                        fill="clear"
+                      >
+                        <IonIcon icon={infoIcon} className="info-icon" />
+                      </IonButton>
                     </IonCardTitle>
                   </IonCardHeader>
                   <IonCardContent>

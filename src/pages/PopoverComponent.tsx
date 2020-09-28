@@ -56,7 +56,7 @@ const PopoverComponent: React.FC = () => {
           <IonList lines="full">
             <IonItem button routerLink="/my/dashboard" onClick={buttonclicked}>
               <IonIcon slot="start" icon={homeIcon} />
-              Home
+              Dashboard
             </IonItem>
             <IonItem
               button

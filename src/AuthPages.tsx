@@ -14,6 +14,7 @@ import Account from "./pages/Account and Settings";
 import Customers from "./pages/Customers";
 import ProfilePage from "./pages/ProfilePage";
 import OrderDetails from "./pages/OrderDetails";
+import CustomerDetails from "./pages/CustomerDetails";
 
 const AuthPages: React.FC = () => {
   const {loggedIn} = useAuth();
@@ -37,6 +38,9 @@ const AuthPages: React.FC = () => {
             </Route>
             <Route exact path="/my/singleorder/:id">
               <OrderDetails />
+            </Route>
+            <Route exact path="/my/singlecustomer/:id">
+              <CustomerDetails />
             </Route>
             <Route exact path="/my/account">
               <Account/>

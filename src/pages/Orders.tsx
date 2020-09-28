@@ -15,44 +15,31 @@ import {
   IonCol,
   IonIcon,
   IonList,
-  IonListHeader,
-  IonItem,
-  IonLabel,
+  IonListHeader, 
+  IonItem
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import "../theme/dashboard.css";
-import {
-  briefcaseSharp as orderIcon,
-  ellipse as listicon,
-} from "ionicons/icons";
+import { briefcaseSharp as orderIcon } from "ionicons/icons";
 import { useAuth } from "../auth";
 import { firestore } from "../firebase";
 import PopoverComponent from "./PopoverComponent";
 
 const Orders: React.FC = () => {
-  const {userId} = useAuth();
+  const { userId } = useAuth();
   const [orders, setorder] = useState([]);
-  const [customers, setcustomer] = useState([]);
 
   useEffect(() => {
-    const orderRef = firestore.collection('users').doc(userId).collection("Orders");
+    const orderRef = firestore
+      .collection("users")
+      .doc(userId)
+      .collection("Orders");
     orderRef.get().then((snapshot) => {
       const orders = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setorder(orders);
-    });
-  }, [userId]);
-
-  useEffect(() => {
-    const customerRef = firestore.collection('users').doc(userId).collection("Customers").limit(1);
-    customerRef.get().then((snapshot) => {
-      const customers = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setcustomer(customers);
     });
   }, [userId]);
 
@@ -63,7 +50,7 @@ const Orders: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
-          <PopoverComponent/>
+          <PopoverComponent />
         </IonToolbar>
       </IonHeader>
 
@@ -75,7 +62,7 @@ const Orders: React.FC = () => {
         </IonToolbar>
         <IonGrid>
           <IonRow>
-            <IonCol size="8">
+            <IonCol>
               <IonCard className="ion-align-self-center">
                 <IonCardHeader color="cardcolor">
                   <IonCardTitle className="ion-text-center card-title">
@@ -86,12 +73,16 @@ const Orders: React.FC = () => {
                   <IonListHeader color="medium">
                     <IonGrid>
                       <IonRow>
-                        <IonCol>Order ID</IonCol>
-                        <IonCol>Customer ID</IonCol>
-                        <IonCol>Product Name</IonCol>
-                        <IonCol>Category</IonCol>
-                        <IonCol>Price</IonCol>
-                        <IonCol>Quantity</IonCol>
+                        <IonCol size="2">Order ID</IonCol>
+                        <IonCol size="1">Product Name</IonCol>
+                        <IonCol size="1">Category</IonCol>
+                        <IonCol size="1">Price</IonCol>
+                        <IonCol size="1">Quantity</IonCol>
+                        <IonCol size="1">Customer Name</IonCol>
+                        <IonCol size="1">Address</IonCol>
+                        <IonCol size="1">Contact No</IonCol>
+                        <IonCol size="2">Email</IonCol>
+                        <IonCol size="1">Status</IonCol>
                       </IonRow>
                     </IonGrid>
                   </IonListHeader>
@@ -99,83 +90,23 @@ const Orders: React.FC = () => {
                     <IonGrid>
                       {orders.map((entry) => (
                         <IonRow key={entry.id}>
-                          <IonCol>{entry.id}</IonCol>
+                          <IonCol size="2">{entry.id}</IonCol>
 
-                          <IonCol>{entry.Customer_id}</IonCol>
+                          <IonCol size="1">{entry.Product_name}</IonCol>
 
-                          <IonCol>{entry.Product_name}</IonCol>
+                          <IonCol size="1">{entry.Category}</IonCol>
 
-                          <IonCol>{entry.Category}</IonCol>
+                          <IonCol size="1">{entry.Price}</IonCol>
 
-                          <IonCol>{entry.Price}</IonCol>
-
-                          <IonCol>{entry.Quantity}</IonCol>
+                          <IonCol size="1">{entry.Quantity}</IonCol>
+                          <IonCol size="1">{entry.Customer_name}</IonCol>
+                          <IonCol size="1">{entry.Address}</IonCol>
+                          <IonCol size="1">{entry.Contact_no}</IonCol>
+                          <IonCol size="2">{entry.Email}</IonCol>
+                          <IonCol size="1"><IonItem lines="none" button routerLink={`/my/singleorder/${entry.id}`}>{entry.Status}</IonItem></IonCol>
                         </IonRow>
                       ))}
                     </IonGrid>
-                  </IonList>
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
-
-            <IonCol size="4">
-              <IonCard className="ion-align-self-center" color="cardcolor">
-                <IonCardHeader color="cardcolor">
-                  <IonCardTitle className="ion-text-center card-title">
-                    Customer details of the related order
-                  </IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent>
-                  <IonList inset={true} mode="ios">
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Customer Name</IonLabel>
-                      {customers.map((entry) => (
-                        <IonLabel key={entry.id}>
-                          {entry.Customer_name}
-                        </IonLabel>
-                      ))}
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Customer ID</IonLabel>
-                      <IonLabel />
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Address</IonLabel>
-                      <IonLabel />
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Contact No</IonLabel>
-                      <IonLabel />
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Email</IonLabel>
-                      <IonLabel />
-                    </IonItem>
                   </IonList>
                 </IonCardContent>
               </IonCard>
