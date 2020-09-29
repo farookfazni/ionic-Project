@@ -39,6 +39,7 @@ const RegisterPage: React.FC = () => {
     } catch (error) {
       setstatus({ loading: false, error: true });
       console.log("error :", error);
+      alert(error);
     }
   };
 
@@ -82,7 +83,7 @@ const RegisterPage: React.FC = () => {
             Create Account
           </IonButton>
           <IonButton expand="block" fill="clear" routerLink="./login">
-            Already have an account
+          <p style={{fontSize:10}}>Already have an account</p>
           </IonButton>
           <IonLoading isOpen={status.loading} />
         </IonCardContent>

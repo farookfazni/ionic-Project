@@ -1,6 +1,5 @@
 import {
   IonHeader,
-  IonTitle,
   IonToolbar,
   IonPage,
   IonButtons,
@@ -8,7 +7,11 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonBackButton
+  IonBackButton,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import "../theme/dashboard.css";
@@ -47,43 +50,49 @@ const CustomerDetails: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <IonToolbar>
-          <IonTitle className="ion-align-self-center title">
-            CustomerDetails
-          </IonTitle>
-        </IonToolbar>
-        <IonList>
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Customer ID</IonLabel>
-              <IonLabel>{entry.id}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Customer Name</IonLabel>
-              <IonLabel>{entry.Customer_name}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Address</IonLabel>
-              <IonLabel>{entry.Address}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Contact No</IonLabel>
-              <IonLabel>{entry.Contact_no}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Email</IonLabel>
-              <IonLabel>{entry.Email}</IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
+        <IonCard color="menu">
+          <IonCardHeader>
+            <IonToolbar>
+              <IonCardTitle className="ion-align-self-center title">
+                CustomerDetails
+              </IonCardTitle>
+            </IonToolbar>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonList>
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Customer ID</IonLabel>
+                  <IonLabel>{entry.id}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Customer Name</IonLabel>
+                  <IonLabel>{entry.Customer_name}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Address</IonLabel>
+                  <IonLabel>{entry.Address}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Contact No</IonLabel>
+                  <IonLabel>{entry.Contact_no}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Email</IonLabel>
+                  <IonLabel>{entry.Email}</IonLabel>
+                </IonItem>
+              ))}
+            </IonList>
+          </IonCardContent>
+        </IonCard>
       </IonContent>
     </IonPage>
   );

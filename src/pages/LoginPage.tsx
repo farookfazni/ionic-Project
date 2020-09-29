@@ -36,8 +36,18 @@ const LoginPage: React.FC = () => {
     } catch (error) {
       setstatus({ loading: false, error: true });
       console.log("error :", error);
+      alert(error);
     }
   };
+
+  const forgetPassword = async () => {
+     await auth.sendPasswordResetEmail(email).then((user)=>{
+      alert('please Check your email')
+    }).catch((e)=>{
+      console.log(e);
+      alert(e);
+    })
+  }
 
   if (loggedIn) {
     return <Redirect to="/my/dashboard" />;
@@ -78,8 +88,11 @@ const LoginPage: React.FC = () => {
           <IonButton expand="block" onClick={handleLogin}>
             Login
           </IonButton>
-          <IonButton expand="block" fill="clear" routerLink="./register">
-            Don't have an account
+          <IonButton style={{margin:0}} expand="block" fill="clear" onClick={forgetPassword}>
+            <p style={{fontSize:10}}>Forget Password</p>
+          </IonButton>
+          <IonButton style={{margin:0}} expand="block" fill="clear" routerLink="./register">
+          <p style={{fontSize:10}}>Don't have an account</p>
           </IonButton>
           <IonLoading isOpen={status.loading} />
         </IonCardContent>

@@ -1,6 +1,5 @@
 import {
   IonHeader,
-  IonTitle,
   IonToolbar,
   IonPage,
   IonButtons,
@@ -13,6 +12,10 @@ import {
   IonSelect,
   IonSelectOption,
   IonText,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import "../theme/dashboard.css";
@@ -79,59 +82,67 @@ const OrderDetails: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <IonToolbar>
-          <IonTitle className="ion-align-self-center title">
-            OrderDetails
-          </IonTitle>
-        </IonToolbar>
-        <IonList>
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Order ID</IonLabel>
-              <IonLabel>{entry.id}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Category</IonLabel>
-              <IonLabel>{entry.Category}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Product Name</IonLabel>
-              <IonLabel>{entry.Product_name}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Quantity</IonLabel>
-              <IonLabel>{entry.Quantity}</IonLabel>
-            </IonItem>
-          ))}
-          {entrie.map((entry) => (
-            <IonItem key={entry.id}>
-              <IonLabel>Price</IonLabel>
-              <IonLabel>{entry.Price}</IonLabel>
-            </IonItem>
-          ))}
+        <IonCard color="menu">
+          <IonCardHeader>
+            <IonToolbar>
+              <IonCardTitle className="ion-align-self-center title">
+                OrderDetails
+              </IonCardTitle>
+            </IonToolbar>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonList>
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Order ID</IonLabel>
+                  <IonLabel>{entry.id}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Category</IonLabel>
+                  <IonLabel>{entry.Category}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Product Name</IonLabel>
+                  <IonLabel>{entry.Product_name}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Quantity</IonLabel>
+                  <IonLabel>{entry.Quantity}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Price</IonLabel>
+                  <IonLabel>{entry.Price}</IonLabel>
+                </IonItem>
+              ))}
 
-          <IonItem>
-            <IonLabel>Set Status</IonLabel>
-            <IonSelect
-              interface="popover"
-              value={Status}
-              placeholder="select-one"
-              onIonChange={(event) => setStatus(event.detail.value)}
-            >
-              <IonSelectOption value="Waiting">Waiting</IonSelectOption>
-              <IonSelectOption value="On Process">On Process</IonSelectOption>
-              <IonSelectOption value="Sent">Sent</IonSelectOption>
-            </IonSelect>
-          </IonItem>
-          {error && <IonText color="danger">Select Status</IonText>}
-          <IonButton onClick={handleStatus}>Proceed</IonButton>
-        </IonList>
+              <IonItem>
+                <IonLabel>Set Status</IonLabel>
+                <IonSelect
+                  interface="popover"
+                  value={Status}
+                  placeholder="select-one"
+                  onIonChange={(event) => setStatus(event.detail.value)}
+                >
+                  <IonSelectOption value="Waiting">Waiting</IonSelectOption>
+                  <IonSelectOption value="On Process">
+                    On Process
+                  </IonSelectOption>
+                  <IonSelectOption value="Sent">Sent</IonSelectOption>
+                </IonSelect>
+              </IonItem>
+              {error && <IonText color="danger">Select Status</IonText>}
+              <IonButton onClick={handleStatus}>Proceed</IonButton>
+            </IonList>
+          </IonCardContent>
+        </IonCard>
       </IonContent>
     </IonPage>
   );

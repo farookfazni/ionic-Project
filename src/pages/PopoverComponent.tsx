@@ -41,42 +41,46 @@ const PopoverComponent: React.FC = () => {
     setShowPopover({ open: false, event: e.nativeEvent });
   };
 
+  const logout = async (e) =>{
+    auth.signOut();
+    setShowPopover({ open: false, event: undefined });
+  };
+
   return (
     <>
-      {entries.map((entry) => (
-        <IonPopover
-          key={entry.id}
-          cssClass="pop-over"
-          isOpen={showPopover.open}
-          event={showPopover.event}
-          onDidDismiss={(e) =>
-            setShowPopover({ open: false, event: undefined })
-          }
-        >
-          <IonList lines="full">
-            <IonItem button routerLink="/my/dashboard" onClick={buttonclicked}>
-              <IonIcon slot="start" icon={homeIcon} />
-              Dashboard
-            </IonItem>
+      <IonPopover
+        cssClass="pop-over"
+        isOpen={showPopover.open}
+        event={showPopover.event}
+        onDidDismiss={(e) => setShowPopover({ open: false, event: undefined })}
+      >
+        <IonList lines="full">
+          <IonItem button routerLink="/my/dashboard" onClick={buttonclicked}>
+            <IonIcon slot="start" icon={homeIcon} />
+            Dashboard
+          </IonItem>
+          {entries.map((entry) => (
             <IonItem
+              key={entry.id}
               button
               routerLink={`/my/profilepage/${entry.id}`}
               onClick={buttonclicked}
             >
               <IonIcon slot="start" icon={profileIcon} /> Profile
             </IonItem>
-            <IonItem button routerLink="/my/account" onClick={buttonclicked}>
-              <IonIcon slot="start" icon={settingIcon} />
-              Settings
-            </IonItem>
+          ))}
+          <IonItem button routerLink="/my/account" onClick={buttonclicked}>
+            <IonIcon slot="start" icon={settingIcon} />
+            Settings
+          </IonItem>
 
-            <IonItem button onClick={() => auth.signOut()}>
-              <IonIcon slot="start" icon={logoutIcon} />
-              LogOut
-            </IonItem>
-          </IonList>
-        </IonPopover>
-      ))}
+          <IonItem button onClick={logout}>
+            <IonIcon slot="start" icon={logoutIcon} />
+            LogOut
+          </IonItem>
+        </IonList>
+      </IonPopover>
+
       <IonChip
         slot="end"
         onClick={(e) => setShowPopover({ open: true, event: e.nativeEvent })}

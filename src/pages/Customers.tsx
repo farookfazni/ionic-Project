@@ -32,6 +32,7 @@ import PopoverComponent from "./PopoverComponent";
 
 const Customers: React.FC = () => {
   const[Customers, setcustomer]=useState([]);
+  const[latestCustomers, setlatestcustomer]=useState([]);
   const {userId} = useAuth();
 
   useEffect(() => {
@@ -43,6 +44,21 @@ const Customers: React.FC = () => {
         ...doc.data(),
       }));
       setcustomer(Customers);
+    });
+  }, [userId]);
+
+  useEffect(() => {
+    const entriesRef = firestore
+      .collection("users")
+      .doc(userId)
+      .collection("Customers")
+      .limit(1);
+    entriesRef.get().then((snapshot) => {
+      const latestCustomers = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setlatestcustomer(latestCustomers);
     });
   }, [userId]);
 
@@ -100,7 +116,7 @@ const Customers: React.FC = () => {
             </IonCol>
 
             <IonCol size="4">
-              <IonCard className="ion-align-self-center" color="cardcolor">
+            {latestCustomers.map((entry) => (<IonCard key={entry.id} className="ion-align-self-center" color="cardcolor">
                 <IonCardHeader color="cardcolor">
                   <IonCardTitle className="ion-text-center card-title">
                     Latest Customer 
@@ -115,7 +131,7 @@ const Customers: React.FC = () => {
                         color="tertiary"
                       />
                       <IonLabel position="stacked">Customer Name</IonLabel>
-                      <IonLabel />
+                      <IonLabel>{entry.Customer_name}</IonLabel>
                     </IonItem>
                     <IonItem color="cardcolor">
                       <IonIcon
@@ -124,7 +140,7 @@ const Customers: React.FC = () => {
                         color="tertiary"
                       />
                       <IonLabel position="stacked">Customer ID</IonLabel>
-                      <IonLabel />
+                      <IonLabel>{entry.id}</IonLabel>
                     </IonItem>
                     <IonItem color="cardcolor">
                       <IonIcon
@@ -133,7 +149,7 @@ const Customers: React.FC = () => {
                         color="tertiary"
                       />
                       <IonLabel position="stacked">Address</IonLabel>
-                      <IonLabel />
+                      <IonLabel>{entry.Address}</IonLabel>
                     </IonItem>
                     <IonItem color="cardcolor">
                       <IonIcon
@@ -142,7 +158,7 @@ const Customers: React.FC = () => {
                         color="tertiary"
                       />
                       <IonLabel position="stacked">Contact No</IonLabel>
-                      <IonLabel />
+                      <IonLabel>{entry.Contact_no}</IonLabel>
                     </IonItem>
                     <IonItem color="cardcolor">
                       <IonIcon
@@ -151,11 +167,12 @@ const Customers: React.FC = () => {
                         color="tertiary"
                       />
                       <IonLabel position="stacked">Email</IonLabel>
-                      <IonLabel />
+                      <IonLabel>{entry.Email}</IonLabel>
                     </IonItem>
                   </IonList>
                 </IonCardContent>
               </IonCard>
+              ))}
             </IonCol>
           </IonRow>
         </IonGrid>
