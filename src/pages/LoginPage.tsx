@@ -91,9 +91,6 @@ const LoginPage: React.FC = () => {
           <IonButton style={{margin:0}} expand="block" fill="clear" onClick={forgetPassword}>
             <p style={{fontSize:10}}>Forget Password</p>
           </IonButton>
-          <IonButton style={{margin:0}} expand="block" fill="clear" routerLink="./register">
-          <p style={{fontSize:10}}>Don't have an account</p>
-          </IonButton>
           <IonLoading isOpen={status.loading} />
         </IonCardContent>
       </IonCard>

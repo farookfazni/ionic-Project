@@ -20,7 +20,7 @@ import {
   IonTextarea,
   IonIcon,
   IonButton,
-  IonDatetime,
+  IonLoading,
 } from "@ionic/react";
 import React, { useState, useEffect, useRef } from "react";
 import "../theme/dashboard.css";
@@ -53,8 +53,9 @@ const Products: React.FC = () => {
   const [Price, setPrice] = useState("");
   const [Quantity, setQuantity] = useState("");
   const [Description, setDescription] = useState("");
-  const [date, setDate] = useState("");
   const fileInputRef = useRef<HTMLInputElement>();
+  const today = new Date();
+  const [loading, setloadng] = useState(false);
 
   useEffect(() => {
     const productRef = firestore
@@ -92,14 +93,16 @@ const Products: React.FC = () => {
       Price,
       Quantity,
       Description,
-      date,
+      date:today,
       PictureUrl,
     };
+    setloadng(true);
     if(PictureUrl.startsWith('blob:')){
         productData.PictureUrl = await savePicture(PictureUrl);
     }
     const productRef = await addproductRef.add(productData);
     console.log("saved: ", productRef.id);
+    setloadng(false);
     history.go(0);
   };
 
@@ -254,13 +257,7 @@ const Products: React.FC = () => {
                         onClick={()=>fileInputRef.current.click()}
                       />
                     </IonItem>
-                    <IonItem>
-                      <IonLabel position="stacked">Date</IonLabel>
-                      <IonDatetime
-                        value={date}
-                        onIonChange={(event) => setDate(event.detail.value)}
-                      />
-                    </IonItem>
+                    <IonLoading isOpen={loading}/>
                     <IonButton type="submit" onClick={handleAddProduct}>
                       Add Product
                     </IonButton>

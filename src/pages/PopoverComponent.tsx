@@ -12,11 +12,11 @@ import {
   settings as settingIcon,
   person as profileIcon,
   homeSharp as homeIcon,
+  personAddSharp as addAdminIcon,
 } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../auth";
 import { auth, firestore } from "../firebase";
-import { Entry, toEntry } from "../model";
 
 const PopoverComponent: React.FC = () => {
   const [showPopover, setShowPopover] = useState<{
@@ -27,14 +27,20 @@ const PopoverComponent: React.FC = () => {
     event: undefined,
   });
   const { userId } = useAuth();
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [entries, setEntries] = useState([]);
 
   useEffect(() => {
     const entriesRef = firestore
       .collection("users")
       .doc(userId)
       .collection("Details");
-    return entriesRef.onSnapshot(({ docs }) => setEntries(docs.map(toEntry)));
+      entriesRef.get().then((snapshot) => {
+        const entries = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setEntries(entries);
+      });
   }, [userId]);
 
   const buttonclicked = async (e) => {
@@ -69,6 +75,12 @@ const PopoverComponent: React.FC = () => {
               <IonIcon slot="start" icon={profileIcon} /> Profile
             </IonItem>
           ))}
+
+          <IonItem button routerLink="/my/register" onClick={buttonclicked}>
+            <IonIcon slot="start" icon={addAdminIcon} />
+            Register New Admin
+          </IonItem>
+
           <IonItem button routerLink="/my/account" onClick={buttonclicked}>
             <IonIcon slot="start" icon={settingIcon} />
             Settings
@@ -86,9 +98,9 @@ const PopoverComponent: React.FC = () => {
         onClick={(e) => setShowPopover({ open: true, event: e.nativeEvent })}
       >
         <IonAvatar>
-          <img src="./assets/1.jpg" alt="" />
+          {entries.map((entry)=>(<img key={entry.id} src={entry.PictureUrl} alt="" />))}
         </IonAvatar>
-        <IonLabel>Farook Fazni</IonLabel>
+        {entries.map((entry)=>(<IonLabel key={entry.id}>{entry.full_name}</IonLabel>))}
       </IonChip>
     </>
   );

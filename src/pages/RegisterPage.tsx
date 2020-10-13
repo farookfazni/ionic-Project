@@ -1,6 +1,5 @@
 import {
   IonHeader,
-  IonTitle,
   IonToolbar,
   IonPage,
   IonButton,
@@ -15,15 +14,15 @@ import {
   IonCardTitle,
   IonCardContent,
   IonFooter,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 import React, { useState } from "react";
-import { Redirect } from "react-router";
-import { useAuth } from "../auth";
 import { auth } from "../firebase";
 import '../theme/login.css';
+import PopoverComponent from "./PopoverComponent";
 
 const RegisterPage: React.FC = () => {
-  const { loggedIn } = useAuth();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setstatus] = useState({ loading: false, error: false });
@@ -36,6 +35,8 @@ const RegisterPage: React.FC = () => {
         password
       );
       console.log("credential:", credential);
+      setstatus({loading:false,error:false});
+      alert("Registered Succsessfully");
     } catch (error) {
       setstatus({ loading: false, error: true });
       console.log("error :", error);
@@ -43,14 +44,15 @@ const RegisterPage: React.FC = () => {
     }
   };
 
-  if (loggedIn) {
-    return <Redirect to="/my/dashboard" />;
-  }
+ 
   return (
     <IonPage className="bg-img">
       <IonHeader>
-        <IonToolbar>
-          <IonTitle></IonTitle>
+      <IonToolbar color="toolbar">
+          <IonButtons slot="start">
+            <IonMenuButton autoHide={false} menu="mainmenu"></IonMenuButton>
+          </IonButtons>
+          <PopoverComponent />
         </IonToolbar>
       </IonHeader>
       <IonCard className="ion-align-self-center login-card">
@@ -81,9 +83,6 @@ const RegisterPage: React.FC = () => {
           )}
           <IonButton expand="block" onClick={handleRegister}>
             Create Account
-          </IonButton>
-          <IonButton expand="block" fill="clear" routerLink="./login">
-          <p style={{fontSize:10}}>Already have an account</p>
           </IonButton>
           <IonLoading isOpen={status.loading} />
         </IonCardContent>

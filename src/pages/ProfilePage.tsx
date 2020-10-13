@@ -67,6 +67,7 @@ const ProfilePage: React.FC = () => {
   const [label3, setlabel3] = useState<any>(true);
   const [edit4, setEdit4] = useState<any>(false);
   const [label4, setlabel4] = useState<any>(true);
+  
 
   const handlefilechange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files.length > 0) {
@@ -194,7 +195,6 @@ const ProfilePage: React.FC = () => {
     history.go(0);
   };
 
-
   useEffect(() => {
     const entriesRef = firestore
       .collection("users")
@@ -285,15 +285,11 @@ const ProfilePage: React.FC = () => {
                       <p style={{ fontSize: 10 }}>Full Name</p>
                       <h2>
                         <strong>{entry.full_name}</strong>
-                        <IonButton fill="clear" mode="ios" onClick={editname}>
-                          <IonIcon
-                            slot="icon-only"
-                            icon={editIcon}
-                            size="small"
-                          />
-                        </IonButton>
                       </h2>
                     </IonLabel>
+                    <IonButton fill="clear" mode="ios" onClick={editname}>
+                      <IonIcon slot="icon-only" icon={editIcon} size="small" />
+                    </IonButton>
                     <IonIcon slot="end" icon={nameIcon} color="deliverboy" />
                   </IonItem>
                 )}

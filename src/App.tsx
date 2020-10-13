@@ -6,8 +6,6 @@ import {
   IonHeader,
   IonToolbar,
   IonItem,
-  IonAvatar,
-  IonLabel,
   IonList,
   IonRouterOutlet,
   IonIcon,
@@ -27,7 +25,6 @@ import {
   settings as settingIcon,
   peopleSharp as customerIcon,
 } from "ionicons/icons";
-import RegisterPage from "./pages/RegisterPage";
 
 const App: React.FC = () => {
   const { loading, auth } = useAuthInit();
@@ -42,12 +39,7 @@ const App: React.FC = () => {
       <IonMenu side="start" menuId="mainmenu" contentId="main">
         <IonHeader>
           <IonToolbar color="primary">
-            <IonItem color="primary">
-              <IonAvatar slot="start">
-                <img src="./assets/1.jpg" alt="user" />
-              </IonAvatar>
-              <IonLabel>Farook Fazni</IonLabel>
-            </IonItem>
+            
           </IonToolbar>
         </IonHeader>
         <IonContent color="menu">
@@ -83,9 +75,6 @@ const App: React.FC = () => {
           <Switch>
           <Route exact path="/login">
               <LoginPage />
-            </Route>
-            <Route exact path="/register">
-              <RegisterPage />
             </Route>
             <Route path="/my">
               <AuthPages />
