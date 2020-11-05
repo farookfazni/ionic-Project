@@ -93,7 +93,6 @@ const Customers: React.FC = () => {
                     <IonGrid>
                       <IonRow>
                         <IonCol>Customer Name</IonCol>
-                        <IonCol>Customer ID</IonCol>
                         <IonCol>Address</IonCol>
                         <IonCol>Contact No</IonCol>
                         <IonCol>Email</IonCol>
@@ -104,7 +103,6 @@ const Customers: React.FC = () => {
                     <IonGrid>
                       {Customers.map((entry)=> (<IonRow key={entry.id}>
                       <IonCol>{entry.Customer_name}</IonCol>
-                      <IonCol>{entry.id}</IonCol>
                       <IonCol>{entry.Address}</IonCol>
                       <IonCol>{entry.Contact_no}</IonCol>
                       <IonCol>{entry.Email}</IonCol>
@@ -132,15 +130,6 @@ const Customers: React.FC = () => {
                       />
                       <IonLabel position="stacked">Customer Name</IonLabel>
                       <IonLabel>{entry.Customer_name}</IonLabel>
-                    </IonItem>
-                    <IonItem color="cardcolor">
-                      <IonIcon
-                        icon={listicon}
-                        className="list-icon"
-                        color="tertiary"
-                      />
-                      <IonLabel position="stacked">Customer ID</IonLabel>
-                      <IonLabel>{entry.id}</IonLabel>
                     </IonItem>
                     <IonItem color="cardcolor">
                       <IonIcon

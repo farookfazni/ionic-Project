@@ -152,17 +152,6 @@ const Products: React.FC = () => {
                           className="list-icon"
                           color="tertiary"
                         />
-                        <IonLabel position="stacked">Product ID</IonLabel>
-                        <IonLabel>{entry.id}</IonLabel>
-                      </IonItem>
-                    ))}
-                    {products.map((entry) => (
-                      <IonItem color="cardcolor" key={entry.id}>
-                        <IonIcon
-                          icon={listicon}
-                          className="list-icon"
-                          color="tertiary"
-                        />
                         <IonLabel position="stacked">Category</IonLabel>
                         <IonLabel>{entry.Category}</IonLabel>
                       </IonItem>

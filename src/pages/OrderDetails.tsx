@@ -94,12 +94,6 @@ const OrderDetails: React.FC = () => {
             <IonList>
               {entrie.map((entry) => (
                 <IonItem key={entry.id}>
-                  <IonLabel>Order ID</IonLabel>
-                  <IonLabel>{entry.id}</IonLabel>
-                </IonItem>
-              ))}
-              {entrie.map((entry) => (
-                <IonItem key={entry.id}>
                   <IonLabel>Category</IonLabel>
                   <IonLabel>{entry.Category}</IonLabel>
                 </IonItem>
@@ -122,6 +116,30 @@ const OrderDetails: React.FC = () => {
                   <IonLabel>{entry.Price}</IonLabel>
                 </IonItem>
               ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Customer Name</IonLabel>
+                  <IonLabel>{entry.Customer_name}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Address</IonLabel>
+                  <IonLabel>{entry.Address}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Contact No</IonLabel>
+                  <IonLabel>{entry.Contact_no}</IonLabel>
+                </IonItem>
+              ))}
+              {entrie.map((entry) => (
+                <IonItem key={entry.id}>
+                  <IonLabel>Email</IonLabel>
+                  <IonLabel>{entry.Email}</IonLabel>
+                </IonItem>
+              ))}
 
               <IonItem>
                 <IonLabel>Set Status</IonLabel>
@@ -131,6 +149,7 @@ const OrderDetails: React.FC = () => {
                   placeholder="select-one"
                   onIonChange={(event) => setStatus(event.detail.value)}
                 >
+                  <IonSelectOption value="Rejected">Rejected</IonSelectOption>
                   <IonSelectOption value="Waiting">Waiting</IonSelectOption>
                   <IonSelectOption value="On Process">
                     On Process

@@ -73,7 +73,6 @@ const Orders: React.FC = () => {
                   <IonListHeader color="medium">
                     <IonGrid>
                       <IonRow>
-                        <IonCol size="2">Order ID</IonCol>
                         <IonCol size="1">Product Name</IonCol>
                         <IonCol size="1">Category</IonCol>
                         <IonCol size="1">Price</IonCol>
@@ -82,6 +81,7 @@ const Orders: React.FC = () => {
                         <IonCol size="1">Address</IonCol>
                         <IonCol size="1">Contact No</IonCol>
                         <IonCol size="2">Email</IonCol>
+                        <IonCol size="2">Deliver the product at</IonCol>
                         <IonCol size="1">Status</IonCol>
                       </IonRow>
                     </IonGrid>
@@ -90,7 +90,7 @@ const Orders: React.FC = () => {
                     <IonGrid>
                       {orders.map((entry) => (
                         <IonRow key={entry.id}>
-                          <IonCol size="2">{entry.id}</IonCol>
+                          
 
                           <IonCol size="1">{entry.Product_name}</IonCol>
 
@@ -103,6 +103,15 @@ const Orders: React.FC = () => {
                           <IonCol size="1">{entry.Address}</IonCol>
                           <IonCol size="1">{entry.Contact_no}</IonCol>
                           <IonCol size="2">{entry.Email}</IonCol>
+                          <IonCol size="2">{new Date(
+                            entry.Date_Time.seconds * 1000
+                          ).toLocaleDateString("en-US", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                          })}</IonCol>
                           <IonCol size="1"><IonItem lines="none" button routerLink={`/my/singleorder/${entry.id}`}>{entry.Status}</IonItem></IonCol>
                         </IonRow>
                       ))}

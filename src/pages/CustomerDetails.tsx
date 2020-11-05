@@ -28,7 +28,7 @@ const CustomerDetails: React.FC = () => {
     const entriesRef = firestore
       .collection("users")
       .doc(userId)
-      .collection("Customers")
+      .collection("Orders")
       .limit(1);
     entriesRef.get().then((snapshot) => {
       const entrie = snapshot.docs.map((doc) => ({
@@ -60,12 +60,6 @@ const CustomerDetails: React.FC = () => {
           </IonCardHeader>
           <IonCardContent>
             <IonList>
-              {entrie.map((entry) => (
-                <IonItem key={entry.id}>
-                  <IonLabel>Customer ID</IonLabel>
-                  <IonLabel>{entry.id}</IonLabel>
-                </IonItem>
-              ))}
               {entrie.map((entry) => (
                 <IonItem key={entry.id}>
                   <IonLabel>Customer Name</IonLabel>
